@@ -19,10 +19,14 @@ else
         echo -n "Apache crashed at " > $THEDIR/mail
         date >> $THEDIR/mail
         echo >> $THEDIR/mail
+        echo "------------------------" >> $THEDIR/mail
         echo "Syslog:" >> $THEDIR/mail
+        echo "------------------------" >> $THEDIR/mail
         tail -n 30 /var/log/syslog >> $THEDIR/mail
         echo >> $THEDIR/mail
+        echo "------------------------" >> $THEDIR/mail
         echo "Error log:" >> $THEDIR/mail
+        echo "------------------------" >> $THEDIR/mail
         tail -n 30 /var/log/apache2/error.log >> $THEDIR/mail
         echo >> $THEDIR/mail
         # restart apache
