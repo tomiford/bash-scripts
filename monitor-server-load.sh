@@ -27,6 +27,9 @@ LOAD15MIN="$(uptime | awk -F "$FTEXT" '{ print $2 }' | cut -d, -f3 | sed 's/ //g
 # awk the memory stats
 MEMU="$(free -tom | awk '/Total:/ {print "Total memory: "$2" MB\nUsed memory: "$3" MB\nFree memory: "$4" MB"}')"
 
+# Apache memory use
+APACHE="$(ps -ylC apache2 | awk '{x += $8;y += 1} END {print "Apache Memory Usage: "x/1024" MB\nAverage Proccess Size: "x/((y-1)*1024)" MB"}')"
+
 # Email subject
 SUBJECT="Alert $(hostname) high load average: $LOAD5MIN"
 
@@ -43,6 +46,11 @@ echo "------------------------" >> $TEMPFILE
 echo "Memory stats:" >> $TEMPFILE
 echo "------------------------" >> $TEMPFILE
 echo "$MEMU" >> $TEMPFILE
+echo " " >> $TEMPFILE
+echo "------------------------" >> $TEMPFILE
+echo "Apache stats:" >> $TEMPFILE
+echo "------------------------" >> $TEMPFILE
+echo "$APACHE" >> $TEMPFILE
 echo " " >> $TEMPFILE
 
 # Look if the limit has been exceeded, compared with the last 15 min load average.
